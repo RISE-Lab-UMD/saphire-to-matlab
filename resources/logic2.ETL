@@ -1,0 +1,68 @@
+﻿TUTORIAL, ATWS, IE-ATWS =
+^WINVER2.1
+^PHASES 1 3 1 1  //# phases defined, max count sequences, view phase, initial phase idx
+CD 16155777 Core Damage
+^TOPTYPES
+IE, FT, FT
+^TOPS
+BORON-FT, HPI-FT
+^LOGIC 1                  // initial phase, following are offset
+ +1.0 +2.0
+      -2.0
+ -1.0  2.0
+^SEQUENCES 0                          // offset from initial phase
+N, Sequence Name, Y, End State, N, Frequency, N, Comments, 
+Y, ,Y, OK,Y, ,Y, ,, 
+Y, ,Y, CD,Y, ,Y, ,, 
+Y, ,Y, CD,Y, ,Y, ,, 
+^ENDSEQUENCES      //Now postprocess end names
+^TOPDESC
+"Anticipated transient without "
+"Scram"
+!
+"Emergency boration fails"
+!
+"High pressure injection fails"
+!
+^NODESUBS
+^TEXT
+^PARMS
+^EOS
+﻿TUTORIAL, SLOCA, IE-SLOCA =
+^WINVER2.1
+^PHASES 1 5 1 1  //# phases defined, max count sequences, view phase, initial phase idx
+CD 16155777 Core Damage
+^TOPTYPES
+IE, FT, FT, FT, FT
+^TOPS
+REACTOR-TRIP-FT, HPI-FT, REDUCE-PRESSURE-FT, LPI-FT
+^LOGIC 1                  // initial phase, following are offset
+ +1.0 +2.0  3.0  4.0
+      -2.0 +3.0 +4.0
+                -4.0
+           -3.0  4.0
+ -1.0  2.0  3.0  4.0
+^SEQUENCES 0                          // offset from initial phase
+N, Sequence Name, Y, End State, N, Frequency, N, Comments, 
+Y, ,Y, OK,Y, ,Y, ,, 
+Y, ,Y, OK,Y, ,Y, ,, 
+Y, ,Y, CD,Y, ,Y, ,, 
+Y, ,Y, CD,Y, ,Y, ,, 
+Y, ,Y, ATWS,Y, ,Y, ,T, 
+^ENDSEQUENCES      //Now postprocess end names
+^TOPDESC
+"Small loss of coolant accident "
+"(LOCA) initiating event"
+!
+"Reactor trip fails"
+!
+"High pressure injection fails"
+!
+"Reducing pressure fails"
+!
+"Low pressure injection fails"
+!
+^NODESUBS
+^TEXT
+^PARMS
+^EOS
