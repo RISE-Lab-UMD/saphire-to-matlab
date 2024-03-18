@@ -9,7 +9,7 @@ public class Node {
     }
 
     public void createNode(){
-        fullString.append("net.a")
+        fullString.append("net.add(17"+ name+")");
     }
     public String toString(){
         return name;
