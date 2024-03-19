@@ -1,23 +1,24 @@
-import java.util.ArrayList;
 public class Node implements Element{
     private String name;
-    private ArrayList<String> connections;
-    private StringBuffer fullString;
+    private String connectionType;
+    private String[] connections;
     private int id;
+    private int nodeType;
     public static int totalNodes = 0;
 
-    public Node(String name,String[] connections){
+    public Node(String name,String connectionType, String[] connections){
         this.name = name;
-        for(String s: connections){
-            this.connections.add(s);
-        }
-        fullString = new StringBuffer();
+        this.connectionType = connectionType;
+        this.connections = connections;
+        this.connections = connections;
         this.id = totalNodes++;
+        nodeType = (connections.length > 0)? 4: 18;
     }
 
-    public void createNode(){
-        fullString.append("net.add(17"+ name+")");
+    public String createNode(){
+        return "net.addNode("+nodeType+",\""+ name.replaceAll("-", "_")+"\")\n";
     }
+
     public String toString(){
         return name;
     }
@@ -30,5 +31,10 @@ public class Node implements Element{
     @Override
     public String getName() {
         return new String(name);
+    }
+
+    @Override
+    public String[] getConnections() {
+        return connections;
     }
 }
