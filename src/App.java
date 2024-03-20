@@ -3,14 +3,23 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileSystemView;
 
 public class App {
     protected static ElementManager e1 = new ElementManager();
     public static void main(String[] args) throws Exception {
-        
-        readFile("resources\\faulttree.FTL");
-        
-        writeFile(e1.toString(), "output\\newScript.m");
+        StringBuffer res = new StringBuffer("net = smile.Network();\n");
+        String xdsl = inputString("enter Genie file name");
+        res.append("net.readFile(\""+xdsl+".xdsl\")\n");
+        readFile("resources\\faulttree.FTL"); // implement file picker later
+
+        res.append(e1.toString());
+        res.append("net.writeFile(\""+xdsl+".xdsl\")\n");
+
+        String outputFile = "output\\"+inputString("Enter matlab script name")+".m";
+        writeFile(res.toString(), outputFile);
         System.out.println(e1);
     }
 
@@ -75,6 +84,44 @@ public class App {
                 // Handle any IO exceptions during closing
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static String chooseFile(){
+        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        fileChooser.setDialogTitle("Browse");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+        // Show the file chooser dialog
+        int returnValue = fileChooser.showOpenDialog(null);
+
+        // If a directory is selected
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            // Get the selected directory
+            String selectedDirectory = fileChooser.getSelectedFile().getAbsolutePath();
+            
+            // Now you can use the selected directory to read files
+            return selectedDirectory;
+            
+            // Example: Read files from the selected directory
+            // Your code to read files can go here
+        } else {
+            // User canceled the operation
+            System.out.println("Operation canceled by user.");
+            return null;
+        }
+    }
+
+    public static String inputString(String message){
+        // Show an input dialog and store the user's input
+        String userInput = JOptionPane.showInputDialog(null, message);
+
+        // Check if the user clicked cancel or closed the dialog
+        if (userInput == null) {
+            return null;
+        } else {
+            // Display the user's input
+            return userInput;
         }
     }
 }

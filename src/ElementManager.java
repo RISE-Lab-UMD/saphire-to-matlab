@@ -43,7 +43,7 @@ public class ElementManager {
             elements.add(e);
             if(e instanceof Node){
                 Node n = (Node) e;
-                con.append(n.createNode());
+                con.append(n.createNode()+n.setPosition());
             }
         }
         return con.toString();
@@ -74,7 +74,7 @@ public class ElementManager {
     }
 
     public String toString(){
-        StringBuffer sb = new StringBuffer("net = new Smile.network()\n");
+        StringBuffer sb = new StringBuffer();
         for(Element e: elements){
             if(e instanceof Node){
                 Node n = (Node) e;
