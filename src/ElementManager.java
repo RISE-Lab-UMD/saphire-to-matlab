@@ -43,7 +43,7 @@ public class ElementManager {
             elements.add(e);
             if(e instanceof Node){
                 Node n = (Node) e;
-                con.append(n.createNode()+n.setPosition());
+                con.append(n.toString()+n.setPosition());
             }
         }
         return con.toString();
@@ -78,7 +78,8 @@ public class ElementManager {
         for(Element e: elements){
             if(e instanceof Node){
                 Node n = (Node) e;
-                sb.append(n.createNode());
+                sb.append(n);
+                sb.append(n.setPosition());
             }
         }
         sb.append(fillChildren());

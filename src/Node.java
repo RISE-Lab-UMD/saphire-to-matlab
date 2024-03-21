@@ -22,20 +22,19 @@ public class Node implements Element{
         nodeType = (connections.length > 0)? 4: 18;
         if(nodeType == 4){
             positionx += 30;
+        } else {
+            positiony += 15;
         }
-        positiony += 15;
+        
     }
 
-    public String createNode(){
-        return "net.addNode("+nodeType+",\""+ name.replaceAll("-", "_")+"\")\n";
-    }
 
     public String setPosition(){
-        return "net.setNodePosition(\""+name+"\","+position+",80,80)\n";
+        return "net.setNodePosition(\""+name.replaceAll("-", "_")+"\","+position+",80,80)\n";
     }
 
     public String toString(){
-        return name;
+        return "net.addNode("+nodeType+",\""+ name.replaceAll("-", "_")+"\")\n";
     }
 
     @Override
