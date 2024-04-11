@@ -13,14 +13,14 @@ public class App {
         StringBuffer res = new StringBuffer("net = smile.Network();\n");
         String xdsl = inputString("enter Genie file name");
         res.append("net.readFile(\""+xdsl+".xdsl\")\n");
+        readFile("resources\\faulttree.BEI"); // implement file picker later
         readFile("resources\\faulttree.FTL"); // implement file picker later
-
         res.append(e1.toString());
         res.append("net.writeFile(\""+xdsl+".xdsl\")\n");
 
         String outputFile = "output\\"+inputString("Enter matlab script name")+".m";
         writeFile(res.toString(), outputFile);
-        System.out.println(e1);
+       // System.out.println(e1);
     }
 
     public static void readFile(String filePath){
@@ -35,7 +35,14 @@ public class App {
             String line;
             // Read each line from the file until reaching the end
             while ((line = reader.readLine()) != null) {
-               e1.parseFaultTreeLine(line);
+                if(filePath.contains(".BEI")){
+                    e1.parseBasicEvent(line);
+                    }
+                if(filePath.contains(".FTL")){
+                    e1.parseFaultTreeLine(line);
+               }
+               
+
             }
         } catch (IOException e) {
 

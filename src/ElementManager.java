@@ -1,63 +1,46 @@
+import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collections;
 public class ElementManager {
-    private ArrayList<Element> elements;
-    
+    private HashMap<String,Element> elements;
     public ElementManager(){
-        elements = new ArrayList<>();
+        elements = new HashMap<>();
     }
 
 
     public String getData(){
         StringBuffer sb = new StringBuffer();
-        for(Element e: elements){
+        for(Element e: elements.values()){
             sb.append(e.toString()+"\n");
         }
         return sb.toString();
     }
 
     public int getIDfromName(String name){
-        for(Element e: elements){
-            if(e.getName().equals(name)){
-                return(e.getID());
-            }
+        if(elements.containsKey(name)){
+            return elements.get(name).getID();
         }
         return -1;
     }
 
     public void addElement(String name, String connectionType, String[] connections){
-        elements.add(new Node(name, connectionType, connections));
+        System.out.print(name);
+        elements.put(name, new Node(name, connectionType, connections));
     }
 
-    public String fillChildren(){
-        StringBuffer con = new StringBuffer();
-        ArrayList<Element> newNodes = new ArrayList<>();
-        for(Element e: elements){
-            for(String s: e.getConnections()){
-                if(getIDfromName(s) == -1){
-                    newNodes.add(new Node(s,"",new String[]{}));
-                }
-                
-            }
-        }
-        for(Element e: newNodes){
-            elements.add(e);
-            if(e instanceof Node){
-                Node n = (Node) e;
-                con.append(n.toString()+n.setPosition());
-            }
-        }
-        return con.toString();
+    public void addElement(String name, String probability){
+        System.out.print(name);
+        elements.put(name, new Node(name, probability));
     }
 
-    public String drawConnections(){
-        StringBuffer con = new StringBuffer();
-
-        for(Element e: elements){
-            for(String s: e.getConnections()){
-                con.append("net.addArc("+getIDfromName(s)+","+e.getID()+")\n");
-            }
+    public void parseBasicEvent(String line){
+        String[] splitLine = line.split(",");
+        String name = splitLine[0].replaceAll("\\s","");
+        String probability = splitLine[5];
+        if(elements.containsKey(name)){
+            elements.get(name).setProbability(probability);
         }
-        return con.toString();
+        addElement(name, probability);
     }
 
     public void parseFaultTreeLine(String line){
@@ -73,18 +56,51 @@ public class ElementManager {
         
     }
 
-    public String toString(){
-        StringBuffer sb = new StringBuffer();
-        for(Element e: elements){
-            if(e instanceof Node){
-                Node n = (Node) e;
-                sb.append(n);
-                sb.append(n.setPosition());
+    public String drawConnections(){
+        StringBuffer con = new StringBuffer();
+        for(String s: elements.keySet()){
+            if(elements.get(s).getConnections() != null){
+                for(String st: elements.get(s).getConnections()){
+                    con.append("net.addArc("+elements.get(st).getID()+","+elements.get(s).getID()+")\n");
+                }
             }
         }
-        sb.append(fillChildren());
+        return con.toString();
+    }
+
+    public String setProbabilities(){
+        StringBuffer prob = new StringBuffer();
+        String elemprob;
+        for(String s: elements.keySet()){
+            elemprob = elements.get(s).getProbability();
+            if(elemprob != null){
+                prob.append("net.setNodeDefinition(\""+s.replaceAll("-","_")+"\",["+elemprob+",1-"+elemprob+"])\n");
+            }
+        }
+        return prob.toString();
+    }
+
+
+    public String toString(){
+        StringBuffer sb = new StringBuffer();
+        sb.append(addAllElements());
         sb.append(drawConnections());
+        sb.append(setProbabilities());
         sb.append("");
         return sb.toString();
     }
+
+    public String addAllElements(){
+        StringBuffer sb = new StringBuffer();
+        ArrayList<Node> allNodes = new ArrayList<>();
+        for(String s: elements.keySet()){
+            allNodes.add((Node) elements.get(s));
+        }
+        Collections.sort(allNodes);
+        for(Node n: allNodes){
+            sb.append(n.toString());
+        }
+        return sb.toString();
+    }
+    
 }

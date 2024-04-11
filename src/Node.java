@@ -1,31 +1,30 @@
-public class Node implements Element{
+public class Node implements Element,Comparable<Node>{
     private String name;
     private String connectionType;
     private String[] connections;
     
+    private String probability;
+
     private String position;
     private int id;
-    private int nodeType;
-    public static int totalNodes = 0;
-    public static int positionx = 50;
-    public static int positiony = 50;
+    protected int nodeType;
 
+    public static int totalNodes = -1;
+    
     
     public Node(String name,String connectionType, String[] connections){
         this.name = name;
         this.connectionType = connectionType;
-        this.connections = connections;
-        this.connections = connections;
+        this.connections = connections;      
+        nodeType = 4;
         this.id = totalNodes++;
-        this.position = positionx+ "," + positiony;
-        
-        nodeType = (connections.length > 0)? 4: 18;
-        if(nodeType == 4){
-            positionx += 30;
-        } else {
-            positiony += 15;
-        }
-        
+    }
+
+    public Node(String name, String probability){
+        this.name = name;
+        this.probability = probability;
+        nodeType = 18;
+        this.id = totalNodes++;
     }
 
 
@@ -51,4 +50,19 @@ public class Node implements Element{
     public String[] getConnections() {
         return connections;
     }
+    @Override
+    public void setProbability(String probability){
+        this.probability = probability;
+    }
+
+    @Override
+    public String getProbability(){
+        return probability;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        return this.id - o.id;
+    }
+
 }
