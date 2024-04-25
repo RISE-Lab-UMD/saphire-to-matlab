@@ -1,6 +1,6 @@
 public class Node implements Element,Comparable<Node>{
     private String name;
-    private String connectionType;
+//    private String connectionType;
     private String[] connections;
     
     private String probability;
@@ -14,7 +14,7 @@ public class Node implements Element,Comparable<Node>{
     
     public Node(String name,String connectionType, String[] connections){
         this.name = name;
-        this.connectionType = connectionType;
+ //       this.connectionType = connectionType;
         this.connections = connections;      
         nodeType = 4;
         this.id = totalNodes++;

@@ -12,13 +12,16 @@ public class App {
     public static void main(String[] args) throws Exception {
         StringBuffer res = new StringBuffer("net = smile.Network();\n");
         String xdsl = inputString("enter Genie file name");
+        String bei = inputString("enter .BEI file name") + ".BEI";
+        String ft = inputString("enter .FTL file name") + ".FTL";
+        
         res.append("net.readFile(\""+xdsl+".xdsl\")\n");
-        readFile("resources\\faulttree.BEI"); // implement file picker later
-        readFile("resources\\faulttree.FTL"); // implement file picker later
+        readFile(bei); // implement file picker later
+        readFile(ft); // implement file picker later
         res.append(e1.toString());
         res.append("net.writeFile(\""+xdsl+".xdsl\")\n");
 
-        String outputFile = "output\\"+inputString("Enter matlab script name")+".m";
+        String outputFile = inputString("Enter matlab script name")+".m";
         writeFile(res.toString(), outputFile);
        // System.out.println(e1);
     }
@@ -45,7 +48,7 @@ public class App {
 
             }
         } catch (IOException e) {
-
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } finally {
             try {
@@ -54,7 +57,7 @@ public class App {
                     reader.close();
                 }
             } catch (IOException e) {
-
+                JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
             }
         }
@@ -80,6 +83,7 @@ public class App {
             System.out.println("Content has been written to the file successfully.");
         } catch (IOException e) {
             // Handle any IO exceptions
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } finally {
             try {
@@ -89,6 +93,7 @@ public class App {
                 }
             } catch (IOException e) {
                 // Handle any IO exceptions during closing
+                JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
             }
         }
