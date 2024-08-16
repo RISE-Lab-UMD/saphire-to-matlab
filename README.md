@@ -11,7 +11,8 @@ Java
 
 ## installation
 
-Download the .jar file and place it into a new folder
+download and navigate to testjar to find required jar file
+
 ## Usage
 Add your .ftl and .bei file into the same folder
 
