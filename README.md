@@ -29,3 +29,6 @@ returns a .m file that can create a Bayesian network if you have GENIE setup wit
 ## Other
 
 testjar contains a sample ftl and bei file along with the compiled jar.
+
+## Contact Me
+cchang22@umd.edu
